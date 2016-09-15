@@ -35,7 +35,7 @@ public class DemoController {
 	    	LOGGER.info("Hour of ZonedEndDateTimeUTC: " +demoResponse.getZonedEndDateTimeUTC().getHour());
 	    	LOGGER.info("Hour of ZonedEndDateTimeUSA: " +demoResponse.getZonedEndDateTimeUSA().getHour());
 	    
-	    	LOGGER.info("Leaving.");
+	    	//LOGGER.info("Leaving.");
 	    	
 	    	LOGGER.info("Computed...startDateTime:::" + startDateTime);
 	    	LOGGER.info("Computed...endDateTime:::" + endDateTime);
