@@ -1,6 +1,7 @@
 package com.demo.app.request;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,7 +23,8 @@ public class DemoRequest {
 
 	@Override
 	public String toString() {
-		return "DemoRequest [startDate=" + startDate + ", startTime=" + startTime + ", endTime=" + endTime + "]";
+		return "DemoRequest [demoId=" + demoId + ", startDate=" + startDate + ", startTime=" + startTime + ", endOTime="
+				+ endTime + "]";
 	}
 
 	LocalTime startTime;
@@ -51,5 +53,5 @@ public class DemoRequest {
 	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
-
+	
 }
