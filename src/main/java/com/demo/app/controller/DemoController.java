@@ -1,7 +1,5 @@
 package com.demo.app.controller;
 
-
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -21,42 +19,43 @@ import com.demo.app.service.DemoService;
 @RestController
 public class DemoController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DemoController.class);
-	
+
 	@Autowired
 	DemoService demoService;
-	
+
 	@RequestMapping(value = "/demo/{startDate}/{startTime}", method = RequestMethod.GET)
-	public DemoResponse getDemoByStartDate(@PathVariable("startDate") LocalDate startDate,@PathVariable("startTime") LocalTime startTime) throws Exception {
+	public DemoResponse getDemoByStartDate(@PathVariable("startDate") LocalDate startDate,
+			@PathVariable("startTime") LocalTime startTime) throws Exception {
 		LOGGER.info("Entering...");
-	    LOGGER.info("Received...startDate:::" + startDate);
-	    LOGGER.info("Received...startTime:::" + startTime);
-	    DemoResponse demoResponse=demoService.getDemoByStartDateAndTime(startDate,startTime);
-	    LOGGER.info("Leaving");
+		LOGGER.info("Received...startDate:::" + startDate);
+		LOGGER.info("Received...startTime:::" + startTime);
+		DemoResponse demoResponse = demoService.getDemoByStartDateAndTime(startDate, startTime);
+		LOGGER.info("Leaving");
 		return demoResponse;
 	}
-	 
-	 @RequestMapping(value = "/demo/{id}", method = RequestMethod.GET)
-		public DemoResponse getDemo(@PathVariable("id") String id) throws Exception {
+
+	@RequestMapping(value = "/demo/{id}", method = RequestMethod.GET)
+	public DemoResponse getDemo(@PathVariable("id") String id) throws Exception {
 		LOGGER.info("Entering...");
-	    LOGGER.info("Received...id:::" + id);
-	    
-	    DemoResponse demoResponse=demoService.getDemoById(id);
-	    
-	    LOGGER.info("Leaving");
+		LOGGER.info("Received...id:::" + id);
+
+		DemoResponse demoResponse = demoService.getDemoById(id);
+
+		LOGGER.info("Leaving");
 		return demoResponse;
-	 }
-	 
-	 @RequestMapping(value = "/demo", method = RequestMethod.POST)
-		public DemoResponse saveDemo(@RequestBody DemoRequest demoRequest) {
-		 
-	    	LOGGER.info("Entering...");
-	    	LOGGER.info("Received...demoRequest:::" + demoRequest);
-	    	
-	    	DemoResponse demoResponse=demoService.saveDemo(demoRequest);
-	    	
-	    	LOGGER.info("Leaving");
-	    	
-	    	return demoResponse;
-	    }
-	 
+	}
+
+	@RequestMapping(value = "/demo", method = RequestMethod.POST)
+	public DemoResponse saveDemo(@RequestBody DemoRequest demoRequest) {
+
+		LOGGER.info("Entering...");
+		LOGGER.info("Received...demoRequest:::" + demoRequest);
+
+		DemoResponse demoResponse = demoService.saveDemo(demoRequest);
+
+		LOGGER.info("Leaving");
+
+		return demoResponse;
+	}
+
 }
