@@ -3,10 +3,20 @@ package com.demo.app;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class DemoRequest {
 
+public class DemoRequest {
+	
+	String demoId;
+
+	public String getDemoId() {
+		return demoId;
+	}
+	public void setDemoId(String demoId) {
+		this.demoId = demoId;
+	}
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	LocalDate startDate;
 	

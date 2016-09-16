@@ -10,7 +10,7 @@ public class DemoResponse {
 	@JsonFormat(pattern = "dd::MM::yyyy")
 	LocalDateTime startDateTime;
 	
-	@JsonFormat(pattern = "dd-MM-yyyy hh:mm")
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	LocalDateTime endDateTime;
 	
 	@JsonFormat(pattern = "dd::MM::yyyy::HH:mm:z")
