@@ -1,12 +1,19 @@
 package com.demo.app.model;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Demo {
+
+	@Override
+	public String toString() {
+		return "Demo [demoId=" + demoId + ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime
+				+ ", typeName=" + typeName + ", newZonedDateTime=" + newZonedDateTime + "]";
+	}
 
 	@Id
 	String demoId;
@@ -29,6 +36,14 @@ public class Demo {
 		this.startDateTime = startDateTime;
 	}
 
+	public ZonedDateTime getNewZonedDateTime() {
+		return newZonedDateTime;
+	}
+
+	public void setNewZonedDateTime(ZonedDateTime newZonedDateTime) {
+		this.newZonedDateTime = newZonedDateTime;
+	}
+
 	public LocalDateTime getEndDateTime() {
 		return endDateTime;
 	}
@@ -48,4 +63,6 @@ public class Demo {
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
 	}
+	
+	ZonedDateTime newZonedDateTime;
 }

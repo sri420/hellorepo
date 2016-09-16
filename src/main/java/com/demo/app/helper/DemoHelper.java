@@ -30,15 +30,15 @@ public class DemoHelper {
 		demoResponse.setZonedEndDateTimeUSA(
 				convertDateBetweenTimeZones(endDateTime, "Asia/Calcutta", "America/Los_Angeles"));
 
-		LOGGER.info("Hur of ZonedStartDateTime: " + demoResponse.getZonedStartDateTime().getHour());
-		LOGGER.info("Hour of ZonedEndDateTimeUTC: " + demoResponse.getZonedEndDateTimeUTC().getHour());
-		LOGGER.info("Hour of ZonedEndDateTimeUSA: " + demoResponse.getZonedEndDateTimeUSA().getHour());
+		//LOGGER.info("Hur of ZonedStartDateTime: " + demoResponse.getZonedStartDateTime().getHour());
+		//LOGGER.info("Hour of ZonedEndDateTimeUTC: " + demoResponse.getZonedEndDateTimeUTC().getHour());
+		//LOGGER.info("Hour of ZonedEndDateTimeUSA: " + demoResponse.getZonedEndDateTimeUSA().getHour());
 
 		LOGGER.info("Leaving");
 		return demoResponse;
 	}
 
-	private ZonedDateTime convertDateBetweenTimeZones(LocalDateTime sourceDateTime, String sourceZone,
+	public ZonedDateTime convertDateBetweenTimeZones(LocalDateTime sourceDateTime, String sourceZone,
 			String targetZone) {
 		return sourceDateTime.atZone(ZoneId.of(sourceZone)).withZoneSameInstant(ZoneId.of(targetZone));
 	}

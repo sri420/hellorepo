@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 @JsonInclude(Include.NON_NULL)
 public class DemoResponse {
 
-	@JsonFormat(pattern = "dd::MM::yyyy")
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
 	LocalDateTime startDateTime;
 
 	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
@@ -78,5 +78,15 @@ public class DemoResponse {
 	@Override
 	public String toString() {
 		return "DemoResponse [startDateTime=" + startDateTime + ", endDateTime=" + endDateTime + "]";
+	}
+	
+	private String demoId;
+
+	public String getDemoId() {
+		return demoId;
+	}
+
+	public void setDemoId(String demoId) {
+		this.demoId = demoId;
 	}
 }

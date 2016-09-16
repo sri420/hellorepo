@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,13 +24,15 @@ public class DemoController {
 	@Autowired
 	DemoService demoService;
 
-	@RequestMapping(value = "/demo/{startDate}/{startTime}", method = RequestMethod.GET)
-	public DemoResponse getDemoByStartDate(@PathVariable("startDate") LocalDate startDate,
-			@PathVariable("startTime") LocalTime startTime) throws Exception {
+	@RequestMapping(value = "/demo/{date}/{startTime}/{endTime}", method = RequestMethod.GET)
+	public DemoResponse getDemoByStartDate(
+			@PathVariable("date")      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+			@PathVariable("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
+			@PathVariable("endTime")   @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime) throws Exception {
 		LOGGER.info("Entering...");
-		LOGGER.info("Received...startDate:::" + startDate);
+		LOGGER.info("Received...date:::" + date);
 		LOGGER.info("Received...startTime:::" + startTime);
-		DemoResponse demoResponse = demoService.getDemoByStartDateAndTime(startDate, startTime);
+		DemoResponse demoResponse = demoService.getDemoBetweenStartDateTimeAndEndDateTime(date, startTime,endTime);
 		LOGGER.info("Leaving");
 		return demoResponse;
 	}
@@ -57,5 +60,19 @@ public class DemoController {
 
 		return demoResponse;
 	}
+	
+	@RequestMapping(value = "/demoutc", method = RequestMethod.POST)
+	public DemoResponse saveDemoInUTC(@RequestBody DemoRequest demoRequest) {
+
+		LOGGER.info("Entering...");
+		LOGGER.info("Received...demoRequest:::" + demoRequest);
+
+		DemoResponse demoResponse = demoService.saveDemoInUTC(demoRequest);
+
+		LOGGER.info("Leaving");
+
+		return demoResponse;
+	}
+
 
 }
