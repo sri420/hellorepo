@@ -1,9 +1,8 @@
-package com.demo.app;
+package com.demo.app.request;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
 

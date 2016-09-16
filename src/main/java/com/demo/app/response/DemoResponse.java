@@ -1,10 +1,13 @@
-package com.demo.app;
+package com.demo.app.response;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_NULL)
 public class DemoResponse {
 
 	@JsonFormat(pattern = "dd::MM::yyyy")
