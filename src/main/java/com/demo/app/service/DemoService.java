@@ -26,7 +26,6 @@ public class DemoService {
 	DemoHelper demoHelper;
 	
 	public DemoResponse saveDemo(DemoRequest demoRequest){
-		
 		LOGGER.info("Entering");
 		
     	LocalDateTime startDateTime=demoHelper.getDateTime(demoRequest.getStartDate(),demoRequest.getStartTime());
