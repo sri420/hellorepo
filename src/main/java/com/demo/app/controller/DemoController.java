@@ -28,16 +28,16 @@ public class DemoController {
 	DemoService demoService;
 
 	@RequestMapping(value = "/demo/{date}/{startTime}/{endTime}", method = RequestMethod.GET)
-	public List<Demo> getDemoByStartDate(
+	public List<DemoResponse> getDemoByStartDate(
 			@PathVariable("date")      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
 			@PathVariable("startTime") @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime startTime,
 			@PathVariable("endTime")   @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime endTime) throws Exception {
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...date:::" + date);
 		LOGGER.info("Received...startTime:::" + startTime);
-		List<Demo> demoResponse = demoService.getDemoBetweenStartDateTimeAndEndDateTime(date, startTime,endTime);
+		List<DemoResponse> demoResponseList = demoService.getDemoBetweenStartDateTimeAndEndDateTime(date, startTime,endTime);
 		LOGGER.info("Leaving");
-		return demoResponse;
+		return demoResponseList;
 	}
 
 	@RequestMapping(value = "/demo/{id}", method = RequestMethod.GET)
@@ -53,50 +53,50 @@ public class DemoController {
 	
 	
 	@RequestMapping(value = "/demo/dateWithoutTimestamp/{date}", method = RequestMethod.GET)
-	public Demo getByDateWithoutTimestamp(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) throws Exception {
+	public DemoResponse getByDateWithoutTimestamp(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) throws Exception {
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...date:::" +date);
 
-		Demo demoResponse = demoService.getByDateWithoutTimestamp(date);
+		DemoResponse demoResponse = demoService.getByDateWithoutTimestamp(date);
 
 		LOGGER.info("Leaving");
 		return demoResponse;
 	}
 
 	@RequestMapping(value = "/demo/dateWithOnlyHourMinute/{dateWithOnlyHourMinute}", method = RequestMethod.GET)
-	public Demo getByDateWithOnlyHourMinute(@PathVariable("dateWithOnlyHourMinute")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH:mm") LocalDateTime dateWithOnlyHourMinute) throws Exception {
+	public DemoResponse getByDateWithOnlyHourMinute(@PathVariable("dateWithOnlyHourMinute")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH:mm") LocalDateTime dateWithOnlyHourMinute) throws Exception {
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...dateWithOnlyHourMinute:::" +dateWithOnlyHourMinute);
 
-		Demo demoResponse = demoService.getByDateWithOnlyHourMinute(dateWithOnlyHourMinute);
+		DemoResponse demoResponse = demoService.getByDateWithOnlyHourMinute(dateWithOnlyHourMinute);
 
 		LOGGER.info("Leaving");
 		return demoResponse;
 	}
 	
 	@RequestMapping(value = "/demo/dateWithOnlyHour/{dateWithOnlyHour}", method = RequestMethod.GET)
-	public Demo getBydateWithOnlyHour(@PathVariable("dateWithOnlyHour")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH") LocalDateTime dateWithOnlyHour) throws Exception {
+	public DemoResponse getBydateWithOnlyHour(@PathVariable("dateWithOnlyHour")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH") LocalDateTime dateWithOnlyHour) throws Exception {
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...dateWithOnlyHour:::" +dateWithOnlyHour);
 
-		Demo demoResponse = demoService.getByDateWithOnlyHour(dateWithOnlyHour);
+		DemoResponse demoResponse = demoService.getByDateWithOnlyHour(dateWithOnlyHour);
 
 		LOGGER.info("Leaving");
 		return demoResponse;
 	}
 	
 	@RequestMapping(value = "/demo/custom/{dateWithOnlyHour}/{dateWithOnlyHourMinute}", method = RequestMethod.GET)
-	public List<Demo> getByCustomCriteria(
+	public List<DemoResponse> getByCustomCriteria(
 			@PathVariable("dateWithOnlyHour")        @DateTimeFormat(pattern = "dd-MM-yyyy::HH")    LocalDateTime dateWithOnlyHour,
 			@PathVariable("dateWithOnlyHourMinute")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH:mm") LocalDateTime dateWithOnlyHourMinute
 			) throws Exception {
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...dateWithOnlyHour:::" +dateWithOnlyHour);
 		LOGGER.info("Received...dateWithOnlyHourMinute:::" +dateWithOnlyHourMinute);
-		List<Demo> demoResponse = demoService.getByCustomCriteria(dateWithOnlyHour,dateWithOnlyHourMinute);
+		List<DemoResponse> demoResponseList = demoService.getByCustomCriteria(dateWithOnlyHour,dateWithOnlyHourMinute);
 
 		LOGGER.info("Leaving");
-		return demoResponse;
+		return demoResponseList;
 	}
 	@RequestMapping(value = "/demo", method = RequestMethod.POST)
 	public Demo saveDemo(@RequestBody DemoRequest demoRequest) {
@@ -111,18 +111,6 @@ public class DemoController {
 		return demoResponse;
 	}
 	
-	@RequestMapping(value = "/demoutc", method = RequestMethod.POST)
-	public DemoResponse saveDemoInUTC(@RequestBody DemoRequest demoRequest) {
-
-		LOGGER.info("Entering...");
-		LOGGER.info("Received...demoRequest:::" + demoRequest);
-
-		DemoResponse demoResponse = demoService.saveDemoInUTC(demoRequest);
-
-		LOGGER.info("Leaving");
-
-		return demoResponse;
-	}
 
 
 }

@@ -3,8 +3,6 @@ package com.demo.app.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -32,7 +30,9 @@ public class DemoService {
 
 	@Autowired
 	DemoHelper demoHelper;
+	
 
+	
 	public Demo saveDemo(DemoRequest demoRequest) {
 		LOGGER.info("Entering");
 
@@ -40,30 +40,16 @@ public class DemoService {
 		LocalDateTime endDateTime = demoHelper.getDateTime(demoRequest.getStartDate(), demoRequest.getEndTime());
 
 		Demo demo = new Demo();
+		
 		demo.setDemoId(demoRequest.getDemoId());
 		demo.setStartDateTime(startDateTime);
 		demo.setEndDateTime(endDateTime);
 		
-		LocalDate dateWithoutTimestamp=LocalDate.now();
+		LocalDate dateWithoutTimestamp=demoHelper.getCurrentDateWithoutTimestamp();
+		LocalDateTime dateWithOnlyHour=demoHelper.getCurrentDateTimeWithOnlyHour();
+		LocalDateTime dateWithOnlyHourMinute=demoHelper.getCurrentDateTimeWithOnlyHourMinute();
+				
 		
-		LocalDateTime dateWithOnlyHour=LocalDateTime.of(
-				LocalDateTime.now().getYear(),
-				LocalDateTime.now().getMonthValue(),
-				LocalDateTime.now().getDayOfMonth(),
-				LocalDateTime.now().getHour(),
-				0,
-				0
-				);
-		
-		LocalDateTime dateWithOnlyHourMinute=LocalDateTime.of(
-				LocalDateTime.now().getYear(),
-				LocalDateTime.now().getMonthValue(),
-				LocalDateTime.now().getDayOfMonth(),
-				LocalDateTime.now().getHour(),
-				LocalDateTime.now().getMinute(),
-				0
-				);
-
 		LOGGER.info("dateWithoutTimestamp:"+ dateWithoutTimestamp);
 		LOGGER.info("dateWithOnlyHour:"+ dateWithOnlyHour);
 		LOGGER.info("dateWithOnlyHourMinute:"+ dateWithOnlyHourMinute);
@@ -72,20 +58,10 @@ public class DemoService {
 		demo.setDateWithOnlyHourMinute(dateWithOnlyHourMinute);
 		demo.setDateWithoutTimestamp(dateWithoutTimestamp);
 		
-		ZonedDateTime zonedStartDateTime = ZonedDateTime.of(startDateTime, ZoneId.systemDefault());
-		ZonedDateTime zonedEndDateTime = ZonedDateTime.of(endDateTime, ZoneId.systemDefault());
-
-		LOGGER.info("Computed...zonedStartDateTime:::" + zonedStartDateTime);
-		LOGGER.info("Computed...zonedEndDateTime:::" + zonedEndDateTime);
-		demo.setZonedStartDateTime(zonedStartDateTime);
-		demo.setZonedEndDateTime(zonedEndDateTime);
 		demoRepository.save(demo);
-
-		//demoHelper.displayZonedDateTimes(startDateTime, endDateTime);
-
+		
 		LOGGER.info("Leaving");
 		return demoRepository.save(demo);
-
 	}
 
 	public DemoResponse getDemoById(String demoId) throws Exception {
@@ -93,12 +69,11 @@ public class DemoService {
 
 		LOGGER.info("Received: demoId:" + demoId);
 
+		DemoResponse demoResponse=null;
 		Demo demo = demoRepository.findOne(demoId);
 
 		if (null != demo && demo.getDemoId().trim().length() > 0) {
-			DemoResponse demoResponse = new DemoResponse();
-			demoResponse.setStartDateTime(demo.getStartDateTime());
-			demoResponse.setEndDateTime(demo.getEndDateTime());
+			demoResponse= demoHelper.getDemoResponse(demo);
 			LOGGER.info("Leaving");
 			return demoResponse;
 		} else {
@@ -112,14 +87,11 @@ public class DemoService {
 		LOGGER.info("Entering");
 		LOGGER.info("Received: startDate:" + startDate);
 		LOGGER.info("Received: startTime:" + startTime);
-		
+		DemoResponse demoResponse = null;
 		Demo demo=demoRepository.findByStartDateTime(demoHelper.getDateTime(startDate, startTime));
 		
 		if (null != demo && demo.getDemoId().trim().length() > 0) {
-			DemoResponse demoResponse = new DemoResponse();
-			demoResponse.setDemoId(demo.getDemoId());
-			demoResponse.setStartDateTime(demo.getStartDateTime());
-			demoResponse.setEndDateTime(demo.getEndDateTime());
+			demoResponse= demoHelper.getDemoResponse(demo);
 			LOGGER.info("Leaving");
 			return demoResponse;
 		}else{
@@ -128,34 +100,82 @@ public class DemoService {
 		}
 	}
 
-	public DemoResponse saveDemoInUTC(DemoRequest demoRequest) {
-		LOGGER.info("Entering");
-		LOGGER.info("Received: demoRequest:" + demoRequest);
-
-		LocalDateTime startDateTime = demoHelper.getDateTime(demoRequest.getStartDate(), demoRequest.getStartTime());
-		LocalDateTime endDateTime = demoHelper.getDateTime(demoRequest.getStartDate(), demoRequest.getEndTime());
-
-		LOGGER.info("startDateTime in LOCAL:" + startDateTime);
-		LOGGER.info("endDateTime in LOCAL:" + endDateTime);
-		ZonedDateTime zonedDateTimeInUTC=demoHelper.convertDateBetweenTimeZones(startDateTime, "Asia/Calcutta", "UTC");
-		
-		LOGGER.info("startDateTime in UTC:" + zonedDateTimeInUTC);
-		
-		Demo demo = new Demo();
-		demo.setDemoId(demoRequest.getDemoId());
-		demo.setStartDateTime(startDateTime);
-		demo.setEndDateTime(endDateTime);
 	
-		LOGGER.info("demo:" + demo);
-		demoRepository.save(demo);
+	
 
-		//demoHelper.displayZonedDateTimes(startDateTime, endDateTime);
-
-		LOGGER.info("Leaving");
-		return demoHelper.getDemoResponse(startDateTime, endDateTime);
+	public DemoResponse getByDateWithoutTimestamp(LocalDate  dateWithoutTimestamp) throws Exception {
+		LOGGER.info("Entering");
+		LOGGER.info("Received: dateWithoutTimestamp:" + dateWithoutTimestamp);
+	
+	
+		DemoResponse demoResponse = null;
+		
+		Demo demo=demoRepository.findByDateWithoutTimestamp(dateWithoutTimestamp);
+		
+		if (null != demo ){
+			demoResponse= demoHelper.getDemoResponse(demo);
+			LOGGER.info("Leaving");
+			return demoResponse;
+		}else{
+			LOGGER.error("Doc not found in the System for dateWithoutTimestamp::" + dateWithoutTimestamp );
+			throw new Exception("Doc not found in the System for dateWithoutTimestamp::" + dateWithoutTimestamp);
+		}
 	}
 
-	public List<Demo> getDemoBetweenStartDateTimeAndEndDateTime(LocalDate date, LocalTime startTime, LocalTime endTime) throws Exception {
+	public DemoResponse getByDateWithOnlyHour(LocalDateTime dateWithOnlyHour) throws Exception {
+		LOGGER.info("Entering");
+		LOGGER.info("Received: dateWithOnlyHour:" + dateWithOnlyHour);
+	
+	
+		DemoResponse demoResponse=null;
+		
+		Demo demo=demoRepository.findByDateWithOnlyHour(dateWithOnlyHour);
+		
+		if (null != demo ){
+			demoResponse= demoHelper.getDemoResponse(demo);
+			return demoResponse;
+		}else{
+			LOGGER.error("Doc not found in the System for dateWithOnlyHour::" + dateWithOnlyHour );
+			throw new Exception("Doc not found in the System for dateWithOnlyHour::" + dateWithOnlyHour);
+		}
+	}
+
+	public DemoResponse getByDateWithOnlyHourMinute(LocalDateTime dateWithOnlyHourMinute) throws Exception {
+		LOGGER.info("Entering");
+		LOGGER.info("Received: dateWithOnlyHourMinute:" + dateWithOnlyHourMinute);
+	
+		DemoResponse demoResponse=null;
+		
+		Demo demo=demoRepository.findByDateWithOnlyHourMinute(dateWithOnlyHourMinute);
+		
+		if (null != demo ){
+			demoResponse= demoHelper.getDemoResponse(demo);
+			return demoResponse;
+		}else{
+			LOGGER.error("Doc not found in the System for dateWithOnlyHourMinute::" + dateWithOnlyHourMinute );
+			throw new Exception("Doc not found in the System for dateWithOnlyHourMinute::" + dateWithOnlyHourMinute);
+		}
+	}
+
+	public List<DemoResponse> getByCustomCriteria(LocalDateTime dateWithOnlyHour, LocalDateTime dateWithOnlyHourMinute) throws Exception {
+		LOGGER.info("Entering");
+		LOGGER.info("Received: dateWithOnlyHour:" + dateWithOnlyHour);
+		LOGGER.info("Received: dateWithOnlyHourMinute:" + dateWithOnlyHourMinute);
+	
+		
+		
+		List<Demo> demoList=demoTemplateImpl.findByCustomCriteria(dateWithOnlyHour,dateWithOnlyHourMinute);
+		
+		
+		if (null != demoList && demoList.size()>0){
+			return demoHelper.getDemoResponse(demoList);
+		}else{
+			LOGGER.error("Doc not found in the System between dateWithOnlyHour and dateWithOnlyHourMinute::" + dateWithOnlyHour + "::" + dateWithOnlyHourMinute);
+			throw new Exception("Doc not found in the System for dateWithOnlyHour and dateWithOnlyHourMinute::" + dateWithOnlyHour + "::" + dateWithOnlyHourMinute);
+		}
+	}
+
+	public List<DemoResponse> getDemoBetweenStartDateTimeAndEndDateTime(LocalDate date, LocalTime startTime, LocalTime endTime) throws Exception {
 		LOGGER.info("Entering");
 		LOGGER.info("Received: startDate:" + date);
 		LOGGER.info("Received: startTime:" + startTime);
@@ -171,77 +191,10 @@ public class DemoService {
 		List<Demo> demoList=demoTemplateImpl.findDemoBetweenStartDateTimeAndEnddateTime(startDateTime,endDateTime);
 		
 		if (null != demoList && demoList.size()>0){
-			return demoList;
+			return demoHelper.getDemoResponse(demoList);
 		}else{
 			LOGGER.error("Doc not found in the System between startDateTime and endDatetime::" + startDateTime + "::" + endDateTime);
 			throw new Exception("Doc not found in the System for startDate and startTime::" + endDateTime + "::" + endDateTime);
 		}
-	}
-
-	public Demo getByDateWithoutTimestamp(LocalDate  dateWithoutTimestamp) throws Exception {
-		LOGGER.info("Entering");
-		LOGGER.info("Received: dateWithoutTimestamp:" + dateWithoutTimestamp);
-	
-	
-		
-		
-		Demo demo=demoRepository.findByDateWithoutTimestamp(dateWithoutTimestamp);
-		
-		if (null != demo ){
-			return demo;
-		}else{
-			LOGGER.error("Doc not found in the System for dateWithoutTimestamp::" + dateWithoutTimestamp );
-			throw new Exception("Doc not found in the System for dateWithoutTimestamp::" + dateWithoutTimestamp);
-		}
-	}
-
-	public Demo getByDateWithOnlyHour(LocalDateTime dateWithOnlyHour) throws Exception {
-		LOGGER.info("Entering");
-		LOGGER.info("Received: dateWithOnlyHour:" + dateWithOnlyHour);
-	
-	
-		
-		
-		Demo demo=demoRepository.findByDateWithOnlyHour(dateWithOnlyHour);
-		
-		if (null != demo ){
-			return demo;
-		}else{
-			LOGGER.error("Doc not found in the System for dateWithOnlyHour::" + dateWithOnlyHour );
-			throw new Exception("Doc not found in the System for dateWithOnlyHour::" + dateWithOnlyHour);
-		}
-	}
-
-	public Demo getByDateWithOnlyHourMinute(LocalDateTime dateWithOnlyHourMinute) throws Exception {
-		LOGGER.info("Entering");
-		LOGGER.info("Received: dateWithOnlyHourMinute:" + dateWithOnlyHourMinute);
-	
-		Demo demo=demoRepository.findByDateWithOnlyHourMinute(dateWithOnlyHourMinute);
-		
-		if (null != demo ){
-			return demo;
-		}else{
-			LOGGER.error("Doc not found in the System for dateWithOnlyHourMinute::" + dateWithOnlyHourMinute );
-			throw new Exception("Doc not found in the System for dateWithOnlyHourMinute::" + dateWithOnlyHourMinute);
-		}
-	}
-
-	public List<Demo> getByCustomCriteria(LocalDateTime dateWithOnlyHour, LocalDateTime dateWithOnlyHourMinute) throws Exception {
-		LOGGER.info("Entering");
-		LOGGER.info("Received: dateWithOnlyHour:" + dateWithOnlyHour);
-		LOGGER.info("Received: dateWithOnlyHourMinute:" + dateWithOnlyHourMinute);
-	
-		
-		
-		List<Demo> demoList=demoTemplateImpl.findByCustomCriteria(dateWithOnlyHour,dateWithOnlyHourMinute);
-		
-		if (null != demoList && demoList.size()>0){
-			return demoList;
-		}else{
-			LOGGER.error("Doc not found in the System between dateWithOnlyHour and dateWithOnlyHourMinute::" + dateWithOnlyHour + "::" + dateWithOnlyHourMinute);
-			throw new Exception("Doc not found in the System for dateWithOnlyHour and dateWithOnlyHourMinute::" + dateWithOnlyHour + "::" + dateWithOnlyHourMinute);
-		}
-	}
-
-	
+	}	
 }

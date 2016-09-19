@@ -1,5 +1,6 @@
 package com.demo.app.response;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
@@ -18,14 +19,72 @@ public class DemoResponse {
 
 	@JsonFormat(pattern = "dd::MM::yyyy::HH:mm:z")
 	ZonedDateTime zonedStartDateTime;
+	
 	@JsonFormat(pattern = "dd::MM::yyyy::HH:mm:z")
 	ZonedDateTime zonedEndDateTime;
 
 	@JsonFormat(pattern = "dd::MM::yyyy::HH:mm:z")
-	ZonedDateTime zonedEndDateTimeUTC;
-
+	ZonedDateTime zonedStartDateTimeUSA;
+	
 	@JsonFormat(pattern = "dd::MM::yyyy::HH:mm:z")
 	ZonedDateTime zonedEndDateTimeUSA;
+	
+	@JsonFormat(pattern = "dd::MM::yyyy::HH:mm:z")
+	ZonedDateTime zonedStartDateTimeUTC;
+	
+	@JsonFormat(pattern = "dd::MM::yyyy::HH:mm:z")
+	ZonedDateTime zonedEndDateTimeUTC;
+
+	
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	LocalDate dateWithoutTimestamp;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy::HH")
+	LocalDateTime dateWithOnlyHour;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+	LocalDateTime dateWithOnlyHourMinute;
+	
+	
+
+	
+
+	
+	public LocalDate getDateWithoutTimestamp() {
+		return dateWithoutTimestamp;
+	}
+
+	public void setDateWithoutTimestamp(LocalDate dateWithoutTimestamp) {
+		this.dateWithoutTimestamp = dateWithoutTimestamp;
+	}
+
+	public LocalDateTime getDateWithOnlyHour() {
+		return dateWithOnlyHour;
+	}
+
+	public void setDateWithOnlyHour(LocalDateTime dateWithOnlyHour) {
+		this.dateWithOnlyHour = dateWithOnlyHour;
+	}
+
+	public LocalDateTime getDateWithOnlyHourMinute() {
+		return dateWithOnlyHourMinute;
+	}
+
+	public void setDateWithOnlyHourMinute(LocalDateTime dateWithOnlyHourMinute) {
+		this.dateWithOnlyHourMinute = dateWithOnlyHourMinute;
+	}
+
+	public ZonedDateTime getZonedStartDateTimeUTC() {
+		return zonedStartDateTimeUTC;
+	}
+
+	public void setZonedStartDateTimeUTC(ZonedDateTime zonedStartDateTimeUTC) {
+		this.zonedStartDateTimeUTC = zonedStartDateTimeUTC;
+	}
+
+	public ZonedDateTime getZonedStartDateTimeUSA() {
+		return zonedStartDateTimeUSA;
+	}
 
 	public ZonedDateTime getZonedEndDateTimeUTC() {
 		return zonedEndDateTimeUTC;
@@ -77,7 +136,12 @@ public class DemoResponse {
 
 	@Override
 	public String toString() {
-		return "DemoResponse [startDateTime=" + startDateTime + ", endDateTime=" + endDateTime + "]";
+		return "DemoResponse [startDateTime=" + startDateTime + ", endDateTime=" + endDateTime + ", zonedStartDateTime="
+				+ zonedStartDateTime + ", zonedEndDateTime=" + zonedEndDateTime + ", zonedStartDateTimeUSA="
+				+ zonedStartDateTimeUSA + ", zonedEndDateTimeUSA=" + zonedEndDateTimeUSA + ", zonedStartDateTimeUTC="
+				+ zonedStartDateTimeUTC + ", zonedEndDateTimeUTC=" + zonedEndDateTimeUTC + ", dateWithoutTimestamp="
+				+ dateWithoutTimestamp + ", dateWithOnlyHour=" + dateWithOnlyHour + ", dateWithOnlyHourMinute="
+				+ dateWithOnlyHourMinute + ", demoId=" + demoId + "]";
 	}
 	
 	private String demoId;
@@ -89,4 +153,10 @@ public class DemoResponse {
 	public void setDemoId(String demoId) {
 		this.demoId = demoId;
 	}
+
+	public void setZonedStartDateTimeUSA(ZonedDateTime zonedStartDateTimeUSA) {
+		this.zonedStartDateTimeUSA = zonedStartDateTimeUSA;
+	}
+
+	
 }
