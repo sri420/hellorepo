@@ -18,9 +18,9 @@ public class Demo {
 	@Override
 	public String toString() {
 		return "Demo [demoId=" + demoId + ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime
-				+ ", typeName=" + typeName + ", newZonedDateTime=" + newZonedDateTime + ", dateWithoutTimestamp="
-				+ dateWithoutTimestamp + ", dateWithOnlyHour=" + dateWithOnlyHour + ", dateWithOnlyHourMinute="
-				+ dateWithOnlyHourMinute + "]";
+				+ ", typeName=" + typeName + ", dateWithoutTimestamp=" + dateWithoutTimestamp + ", dateWithOnlyHour="
+				+ dateWithOnlyHour + ", dateWithOnlyHourMinute=" + dateWithOnlyHourMinute + ", zonedStartDateTime="
+				+ zonedStartDateTime + ", zonedEndDateTime=" + zonedEndDateTime + "]";
 	}
 
 	@Id
@@ -44,13 +44,7 @@ public class Demo {
 		this.startDateTime = startDateTime;
 	}
 
-	public ZonedDateTime getNewZonedDateTime() {
-		return newZonedDateTime;
-	}
-
-	public void setNewZonedDateTime(ZonedDateTime newZonedDateTime) {
-		this.newZonedDateTime = newZonedDateTime;
-	}
+	
 
 	public LocalDateTime getEndDateTime() {
 		return endDateTime;
@@ -72,7 +66,7 @@ public class Demo {
 		this.typeName = typeName;
 	}
 	
-	ZonedDateTime newZonedDateTime;
+	
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	LocalDate dateWithoutTimestamp;
 	
@@ -106,5 +100,25 @@ public class Demo {
 		this.dateWithOnlyHourMinute = dateWithOnlyHourMinute;
 	}
 
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss z")
+	ZonedDateTime zonedStartDateTime;
 	
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss z")
+	ZonedDateTime zonedEndDateTime;
+
+	public ZonedDateTime getZonedStartDateTime() {
+		return zonedStartDateTime;
+	}
+
+	public void setZonedStartDateTime(ZonedDateTime zonedStartDateTime) {
+		this.zonedStartDateTime = zonedStartDateTime;
+	}
+
+	public ZonedDateTime getZonedEndDateTime() {
+		return zonedEndDateTime;
+	}
+
+	public void setZonedEndDateTime(ZonedDateTime zonedEndDateTime) {
+		this.zonedEndDateTime = zonedEndDateTime;
+	}
 }

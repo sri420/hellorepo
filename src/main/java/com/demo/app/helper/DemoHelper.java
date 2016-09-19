@@ -49,8 +49,8 @@ public class DemoHelper {
 		LOGGER.info("Received...startDateTime:::" + startDateTime);
 		LOGGER.info("Received...endDateTime:::" + endDateTime);
 
-		ZonedDateTime zonedStartDateTime = ZonedDateTime.of(startDateTime, ZoneId.of("Asia/Calcutta"));
-		ZonedDateTime zonedEndDateTime = ZonedDateTime.of(startDateTime, ZoneId.of("Asia/Calcutta"));
+		ZonedDateTime zonedStartDateTime = ZonedDateTime.of(startDateTime, ZoneId.systemDefault());
+		ZonedDateTime zonedEndDateTime = ZonedDateTime.of(endDateTime, ZoneId.systemDefault());
 
 		LOGGER.info("Computed...zonedStartDateTime:::" + zonedStartDateTime);
 		LOGGER.info("Computed...zonedEndDateTime:::" + zonedEndDateTime);

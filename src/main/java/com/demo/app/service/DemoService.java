@@ -3,6 +3,7 @@ package com.demo.app.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -71,8 +72,13 @@ public class DemoService {
 		demo.setDateWithOnlyHourMinute(dateWithOnlyHourMinute);
 		demo.setDateWithoutTimestamp(dateWithoutTimestamp);
 		
-		
-		
+		ZonedDateTime zonedStartDateTime = ZonedDateTime.of(startDateTime, ZoneId.systemDefault());
+		ZonedDateTime zonedEndDateTime = ZonedDateTime.of(endDateTime, ZoneId.systemDefault());
+
+		LOGGER.info("Computed...zonedStartDateTime:::" + zonedStartDateTime);
+		LOGGER.info("Computed...zonedEndDateTime:::" + zonedEndDateTime);
+		demo.setZonedStartDateTime(zonedStartDateTime);
+		demo.setZonedEndDateTime(zonedEndDateTime);
 		demoRepository.save(demo);
 
 		//demoHelper.displayZonedDateTimes(startDateTime, endDateTime);
@@ -139,7 +145,7 @@ public class DemoService {
 		demo.setDemoId(demoRequest.getDemoId());
 		demo.setStartDateTime(startDateTime);
 		demo.setEndDateTime(endDateTime);
-		demo.setNewZonedDateTime(zonedDateTimeInUTC);
+	
 		LOGGER.info("demo:" + demo);
 		demoRepository.save(demo);
 
