@@ -53,36 +53,36 @@ public class DemoController {
 	
 	
 	@RequestMapping(value = "/demo/dateWithoutTimestamp/{date}", method = RequestMethod.GET)
-	public DemoResponse getByDateWithoutTimestamp(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) throws Exception {
+	public List<DemoResponse> getByDateWithoutTimestamp(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) throws Exception {
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...date:::" +date);
 
-		DemoResponse demoResponse = demoService.getByDateWithoutTimestamp(date);
+		List<DemoResponse> demoResponseList = demoService.getByDateWithoutTimestamp(date);
 
 		LOGGER.info("Leaving");
-		return demoResponse;
+		return demoResponseList;
 	}
 
 	@RequestMapping(value = "/demo/dateWithOnlyHourMinute/{dateWithOnlyHourMinute}", method = RequestMethod.GET)
-	public DemoResponse getByDateWithOnlyHourMinute(@PathVariable("dateWithOnlyHourMinute")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH:mm") LocalDateTime dateWithOnlyHourMinute) throws Exception {
+	public List<DemoResponse> getByDateWithOnlyHourMinute(@PathVariable("dateWithOnlyHourMinute")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH:mm") LocalDateTime dateWithOnlyHourMinute) throws Exception {
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...dateWithOnlyHourMinute:::" +dateWithOnlyHourMinute);
 
-		DemoResponse demoResponse = demoService.getByDateWithOnlyHourMinute(dateWithOnlyHourMinute);
+		List<DemoResponse> demoResponseList = demoService.getByDateWithOnlyHourMinute(dateWithOnlyHourMinute);
 
 		LOGGER.info("Leaving");
-		return demoResponse;
+		return demoResponseList;
 	}
 	
 	@RequestMapping(value = "/demo/dateWithOnlyHour/{dateWithOnlyHour}", method = RequestMethod.GET)
-	public DemoResponse getBydateWithOnlyHour(@PathVariable("dateWithOnlyHour")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH") LocalDateTime dateWithOnlyHour) throws Exception {
+	public List<DemoResponse> getBydateWithOnlyHour(@PathVariable("dateWithOnlyHour")  @DateTimeFormat(pattern = "dd-MM-yyyy::HH") LocalDateTime dateWithOnlyHour) throws Exception {
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...dateWithOnlyHour:::" +dateWithOnlyHour);
 
-		DemoResponse demoResponse = demoService.getByDateWithOnlyHour(dateWithOnlyHour);
+		List<DemoResponse> demoResponseList = demoService.getByDateWithOnlyHour(dateWithOnlyHour);
 
 		LOGGER.info("Leaving");
-		return demoResponse;
+		return demoResponseList;
 	}
 	
 	@RequestMapping(value = "/demo/custom/{dateWithOnlyHour}/{dateWithOnlyHourMinute}", method = RequestMethod.GET)
@@ -99,12 +99,12 @@ public class DemoController {
 		return demoResponseList;
 	}
 	@RequestMapping(value = "/demo", method = RequestMethod.POST)
-	public Demo saveDemo(@RequestBody DemoRequest demoRequest) {
+	public DemoResponse saveDemo(@RequestBody DemoRequest demoRequest) {
 
 		LOGGER.info("Entering...");
 		LOGGER.info("Received...demoRequest:::" + demoRequest);
 
-		Demo demoResponse = demoService.saveDemo(demoRequest);
+		DemoResponse demoResponse = demoService.saveDemo(demoRequest);
 
 		LOGGER.info("Leaving");
 

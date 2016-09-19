@@ -33,7 +33,7 @@ public class DemoService {
 	
 
 	
-	public Demo saveDemo(DemoRequest demoRequest) {
+	public DemoResponse saveDemo(DemoRequest demoRequest) {
 		LOGGER.info("Entering");
 
 		LocalDateTime startDateTime = demoHelper.getDateTime(demoRequest.getStartDate(), demoRequest.getStartTime());
@@ -60,8 +60,8 @@ public class DemoService {
 		
 		demoRepository.save(demo);
 		
-		LOGGER.info("Leaving");
-		return demoRepository.save(demo);
+		return demoHelper.getDemoResponse(demo);
+		
 	}
 
 	public DemoResponse getDemoById(String demoId) throws Exception {
@@ -83,15 +83,15 @@ public class DemoService {
 
 	}
 
-	public DemoResponse getDemoByStartDateAndTime(LocalDate startDate, LocalTime startTime) throws Exception {
+	public List<DemoResponse> getDemoByStartDateAndTime(LocalDate startDate, LocalTime startTime) throws Exception {
 		LOGGER.info("Entering");
 		LOGGER.info("Received: startDate:" + startDate);
 		LOGGER.info("Received: startTime:" + startTime);
-		DemoResponse demoResponse = null;
-		Demo demo=demoRepository.findByStartDateTime(demoHelper.getDateTime(startDate, startTime));
+		List<DemoResponse> demoResponse = null;
+		List<Demo> demoList=demoRepository.findByStartDateTime(demoHelper.getDateTime(startDate, startTime));
 		
-		if (null != demo && demo.getDemoId().trim().length() > 0) {
-			demoResponse= demoHelper.getDemoResponse(demo);
+		if (null != demoList && demoList.size() > 0) {
+			demoResponse= demoHelper.getDemoResponse(demoList);
 			LOGGER.info("Leaving");
 			return demoResponse;
 		}else{
@@ -103,17 +103,17 @@ public class DemoService {
 	
 	
 
-	public DemoResponse getByDateWithoutTimestamp(LocalDate  dateWithoutTimestamp) throws Exception {
+	public List<DemoResponse> getByDateWithoutTimestamp(LocalDate  dateWithoutTimestamp) throws Exception {
 		LOGGER.info("Entering");
 		LOGGER.info("Received: dateWithoutTimestamp:" + dateWithoutTimestamp);
 	
 	
-		DemoResponse demoResponse = null;
+		List<DemoResponse> demoResponse = null;
 		
-		Demo demo=demoRepository.findByDateWithoutTimestamp(dateWithoutTimestamp);
+		List<Demo> demoList=demoRepository.findByDateWithoutTimestamp(dateWithoutTimestamp);
 		
-		if (null != demo ){
-			demoResponse= demoHelper.getDemoResponse(demo);
+		if (null != demoList && demoList.size()>0 ){
+			demoResponse= demoHelper.getDemoResponse(demoList);
 			LOGGER.info("Leaving");
 			return demoResponse;
 		}else{
@@ -122,17 +122,17 @@ public class DemoService {
 		}
 	}
 
-	public DemoResponse getByDateWithOnlyHour(LocalDateTime dateWithOnlyHour) throws Exception {
+	public List<DemoResponse> getByDateWithOnlyHour(LocalDateTime dateWithOnlyHour) throws Exception {
 		LOGGER.info("Entering");
 		LOGGER.info("Received: dateWithOnlyHour:" + dateWithOnlyHour);
 	
 	
-		DemoResponse demoResponse=null;
+		List<DemoResponse> demoResponse=null;
 		
-		Demo demo=demoRepository.findByDateWithOnlyHour(dateWithOnlyHour);
+		List<Demo> demoList=demoRepository.findByDateWithOnlyHour(dateWithOnlyHour);
 		
-		if (null != demo ){
-			demoResponse= demoHelper.getDemoResponse(demo);
+		if (null != demoList ){
+			demoResponse= demoHelper.getDemoResponse(demoList);
 			return demoResponse;
 		}else{
 			LOGGER.error("Doc not found in the System for dateWithOnlyHour::" + dateWithOnlyHour );
@@ -140,16 +140,16 @@ public class DemoService {
 		}
 	}
 
-	public DemoResponse getByDateWithOnlyHourMinute(LocalDateTime dateWithOnlyHourMinute) throws Exception {
+	public List<DemoResponse> getByDateWithOnlyHourMinute(LocalDateTime dateWithOnlyHourMinute) throws Exception {
 		LOGGER.info("Entering");
 		LOGGER.info("Received: dateWithOnlyHourMinute:" + dateWithOnlyHourMinute);
 	
-		DemoResponse demoResponse=null;
+		List<DemoResponse> demoResponse=null;
 		
-		Demo demo=demoRepository.findByDateWithOnlyHourMinute(dateWithOnlyHourMinute);
+		List<Demo> demoList=demoRepository.findByDateWithOnlyHourMinute(dateWithOnlyHourMinute);
 		
-		if (null != demo ){
-			demoResponse= demoHelper.getDemoResponse(demo);
+		if (null != demoList ){
+			demoResponse= demoHelper.getDemoResponse(demoList);
 			return demoResponse;
 		}else{
 			LOGGER.error("Doc not found in the System for dateWithOnlyHourMinute::" + dateWithOnlyHourMinute );
