@@ -3,6 +3,8 @@ package com.demo.app.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,88 +17,89 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class Demo {
 
 
-	public String getDemoId() {
-		return demoId;
-	}
+	@Id
+	String demoId;
 
-	public void setDemoId(String demoId) {
-		this.demoId = demoId;
-	}
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+	LocalDateTime startDateTime;
 
-	@Override
-	public String toString() {
-		return "Demo [demoId=" + demoId + ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime
-				+ ", typeName=" + typeName + ", dateWithoutTimestamp=" + dateWithoutTimestamp + ", dateWithOnlyHour="
-				+ dateWithOnlyHour + ", dateWithOnlyHourMinute=" + dateWithOnlyHourMinute + "]";
-	}
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+	LocalDateTime endDateTime;
 
-	public LocalDateTime getStartDateTime() {
-		return startDateTime;
-	}
+	
+	String typeName;
 
-	public void setStartDateTime(LocalDateTime startDateTime) {
-		this.startDateTime = startDateTime;
-	}
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	LocalDate dateWithoutTimestamp;
 
-	public LocalDateTime getEndDateTime() {
-		return endDateTime;
-	}
+	@JsonFormat(pattern = "dd-MM-yyyy::HH")
+	LocalDateTime dateWithOnlyHour;
 
-	public void setEndDateTime(LocalDateTime endDateTime) {
-		this.endDateTime = endDateTime;
-	}
-
-	public String getTypeName() {
-		return typeName;
-	}
-
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
-
-	public LocalDate getDateWithoutTimestamp() {
-		return dateWithoutTimestamp;
-	}
-
-	public void setDateWithoutTimestamp(LocalDate dateWithoutTimestamp) {
-		this.dateWithoutTimestamp = dateWithoutTimestamp;
-	}
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
+	LocalDateTime dateWithOnlyHourMinute;
 
 	public LocalDateTime getDateWithOnlyHour() {
 		return dateWithOnlyHour;
-	}
-
-	public void setDateWithOnlyHour(LocalDateTime dateWithOnlyHour) {
-		this.dateWithOnlyHour = dateWithOnlyHour;
 	}
 
 	public LocalDateTime getDateWithOnlyHourMinute() {
 		return dateWithOnlyHourMinute;
 	}
 
+	public LocalDate getDateWithoutTimestamp() {
+		return dateWithoutTimestamp;
+	}
+
+	public String getDemoId() {
+		return demoId;
+	}
+
+	public LocalDateTime getEndDateTime() {
+		return endDateTime;
+	}
+
+	public LocalDateTime getStartDateTime() {
+		return startDateTime;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setDateWithOnlyHour(LocalDateTime dateWithOnlyHour) {
+		this.dateWithOnlyHour = dateWithOnlyHour;
+	}
+
 	public void setDateWithOnlyHourMinute(LocalDateTime dateWithOnlyHourMinute) {
 		this.dateWithOnlyHourMinute = dateWithOnlyHourMinute;
 	}
 
-	@Id
-	String demoId;
-
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
-	LocalDateTime startDateTime;
+	public void setDateWithoutTimestamp(LocalDate dateWithoutTimestamp) {
+		this.dateWithoutTimestamp = dateWithoutTimestamp;
+	}
 	
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
-	LocalDateTime endDateTime;
+	public void setDemoId(String demoId) {
+		this.demoId = demoId;
+	}
 	
-	String typeName;
+	public void setEndDateTime(LocalDateTime endDateTime) {
+		this.endDateTime = endDateTime;
+	}
 	
-	@JsonFormat(pattern = "dd-MM-yyyy")
-	LocalDate dateWithoutTimestamp;
+	public void setStartDateTime(LocalDateTime startDateTime) {
+		this.startDateTime = startDateTime;
+	}
 	
-	@JsonFormat(pattern = "dd-MM-yyyy::HH")
-	LocalDateTime dateWithOnlyHour;
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
 	
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm")
-	LocalDateTime dateWithOnlyHourMinute;
+	@Override
+	public String toString() {
+		return "Demo [demoId=" + demoId + ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime
+				+ ", typeName=" + typeName + ", dateWithoutTimestamp=" + dateWithoutTimestamp + ", dateWithOnlyHour="
+				+ dateWithOnlyHour + ", dateWithOnlyHourMinute=" + dateWithOnlyHourMinute + "]";
+	}
 
 	
 	
